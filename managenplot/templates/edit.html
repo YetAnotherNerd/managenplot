@@ -1,0 +1,17 @@
+<!doctype html>
+<title>managenplot edit</title>
+<form action="{{ url_for('save') }}" method="POST">
+    <table width="100%">
+        <tr>
+            <th><input type="button"
+                       onclick="location.href='{{ url_for('managenplot') }}';"
+                       value="back"/></th>
+            <th><input type="button"
+                       onclick="location.href='{{ url_for('test_data') }}';"
+                       value="testdata"/></th>
+            <th><input type="submit" value="save"/></th>
+        </tr>
+    </table>
+    <p></p>
+    <textarea name="text" style="width: 100%; height: 40vw;">{{ text }}</textarea>
+</form>

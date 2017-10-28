@@ -1,0 +1,10 @@
+table.plot, .plot th, .plot td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    min-width: 28px;
+}
+
+th.plot, .plot td {
+    height: 28px;
+    white-space: nowrap
+}

@@ -1,0 +1,115 @@
+<!doctype html>
+<title>managenplot</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<table width="100%">
+    <tr>
+        <th><input type="button"
+                   onclick="location.href='{{ url_for('managenplot') }}';"
+                   value="today"/></th>
+        <th><input type="button"
+                   onclick="location.href='{{ url_for('edit') }}';"
+                   value="edit"/></th>
+        {% for i in range(3) %}
+        <th><input type="button"
+                   onclick="location.href='{{ url_for('managenplot', year=year+i-1 , month=month) }}';"
+                   value="{{ year+i-1 }}"/></th>
+        {% endfor %}
+    </tr>
+</table>
+<table width="100%">
+    <tr>
+        {% for i in range(12) %}
+        <th><input type="button"
+                   onclick="location.href='{{ url_for('managenplot', year=year , month=i+1) }}';"
+                   value="{{ i + 1 }}"/></th>
+        {% endfor %}
+    </tr>
+</table>
+<p></p>
+<table width="100%" class="plot">
+    <tr>
+        <th>month</th>
+        {% for month in cal %}
+        <th colspan="{{ 7 * month[0]|length }}">
+            {{ ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+            'August', 'September', 'October', 'November', 'December'][month[0][-1][0].month-1]
+            }} {{ month[0][-1][0].year }}
+        </th>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th>week</th>
+        {% for month in cal %}
+        {% for weeks in month %}
+        {% for week in weeks %}
+        <th colspan="7">{{ week[3].isocalendar()[1] }}</th>
+        {% endfor %}
+        {% endfor %}
+        {% endfor %}
+    </tr>
+    <tr>
+        <th rowspan="2">day</th>
+        {% for month in cal %}
+        {% for weeks in month %}
+        {% for week in weeks %}
+        {% for day in week %}
+        {% if day.weekday() > 4 %}
+        <th style="background-color: lightgrey;">
+            {% else %}
+        <th>
+            {% endif %}
+            {{ ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'][loop.index0] }}
+        </th>
+        {% endfor %}
+        {% endfor %}
+        {% endfor %}
+        {% endfor %}
+    </tr>
+    <tr>
+        {% for month in cal %}
+        {% for weeks in month %}
+        {% for week in weeks %}
+        {% for day in week %}
+        {% if day.weekday() > 4 %}
+        <th style="background-color: lightgrey;">
+            {% else %}
+        <th>
+            {% endif %}{{ day.day }}
+        </th>
+        {% endfor %}
+        {% endfor %}
+        {% endfor %}
+        {% endfor %}
+    </tr>
+    {% for prj, guys in data %}
+    <tr>
+        <td colspan="999"></td>
+    </tr>
+    <tr>
+        <th></th>
+        {% for month in cal %}
+        <th colspan="{{ 7 * month[0]|length }}">{{ prj }}</th>
+        {% endfor %}
+    </tr>
+    {% for guy in guys %}
+    <tr>
+        <th style="background-color: {{ guy[1] }}">{{ guy[0] }}</th>
+        {% for month in cal %}
+        {% for weeks in month %}
+        {% for week in weeks %}
+        {% for day in week %}
+        {% if day in guy[2] %}
+        <td style="background-color: {{ guy[1] }};"></td>
+        {% elif day.weekday() > 4 %}
+        <td style="background-color: lightgrey;"></td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+        {% endfor %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    {% endfor %}
+</table>
