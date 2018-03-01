@@ -1,6 +1,7 @@
 import logging
 import re
 import random
+import tempfile
 from datetime import datetime, timedelta, date
 from flask import Flask, render_template, request, url_for
 from calendar import Calendar
@@ -9,7 +10,7 @@ from werkzeug.utils import redirect
 from managenplot.colorhash import ColorHash
 
 app = Flask(__name__)
-DATA_FILE = '/tmp/data.txt'
+DATA_FILE = tempfile.gettempdir() + '/data.txt'
 PATTERN = re.compile('from (\d+-\d+-\d+) to (\d+-\d+-\d+) (\w+) does (\w+).', re.I)
 
 
